@@ -6,13 +6,26 @@ import 'package:myapp/views/configuracoes.dart';
 import 'package:myapp/views/editarPerfil.dart';
 import 'package:myapp/views/login.dart';
 
+
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+
 void main () async {
+WidgetsFlutterBinding.ensureInitialized();
   const keyApplicationId = 'VdAmOpZnGh8YaDQ72yW9U2mV7Uw2J4rmxFY7t8Rw';
   final keyClientKey = 'r7SjPAmLWF8uPBwfe3QTCD3kKr6KB3jCSQiGhGdg';
   final keyParseServerUrl = 'https://parseapi.back4app.com';
 
-  await Parse().initialize(keyApplicationId, keyParseServerUrl, clientKey: keyClientKey, debug: true);
-      
+  await Parse().initialize(keyApplicationId, keyParseServerUrl,
+      clientKey: keyClientKey, debug: true);
+
+  var firstObject = ParseObject('Biografia')
+    ..set(
+        'textoBio', 'Hey ! First message from Flutter. Parse is now connected');
+  await firstObject.save();
+
+  print('done');
+
+
   runApp(
     MaterialApp(
       home: Scaffold(
