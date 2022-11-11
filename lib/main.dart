@@ -18,14 +18,6 @@ WidgetsFlutterBinding.ensureInitialized();
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyClientKey, debug: true);
 
-  var firstObject = ParseObject('Biografia')
-    ..set(
-        'textoBio', 'Hey ! First message from Flutter. Parse is now connected');
-  await firstObject.save();
-
-  print('done');
-
-
   runApp(
     MaterialApp(
       home: Scaffold(

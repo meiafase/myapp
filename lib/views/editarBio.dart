@@ -1,11 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/views/sucesso.dart';
+import 'package:myapp/main.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 
 class EditarBioPage extends StatelessWidget {
+  final newBio = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
+    void addNewBio() async {
+      print(newBio);
+      var todo = ParseObject('Biografia')
+        ..objectId = 'Edix2sFKur'
+        ..set('textoBio', newBio.text);
+      await todo.save();
+      newBio.clear();
+
+    }
+
+    Future<List> listBio() async {
+      QueryBuilder<ParseObject> queryTodo =
+      QueryBuilder<ParseObject>(ParseObject('Todo'));
+      final ParseResponse apiResponse = await queryTodo.query();
+
+      if (apiResponse.success && apiResponse.results != null) {
+        return apiResponse.results as List<ParseObject>;
+      } else {
+        return [];
+      }
+    }
+
+
     return  Scaffold(
       appBar: AppBar(
         title: const Text('Editar Biografia'),
@@ -148,10 +175,10 @@ class EditarBioPage extends StatelessWidget {
                     style: TextStyle(height: 10),
                   ),
                   TextField(
+                    controller: newBio,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Digite sua nova Bio',
-                      
                     ),
                   ),
                 ],
@@ -164,10 +191,7 @@ class EditarBioPage extends StatelessWidget {
               
             ),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PageSucess()),
-              );
+              addNewBio();
             },
             child: Text('Salvar Mudança'),
           ),

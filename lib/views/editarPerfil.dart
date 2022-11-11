@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/views/editarBio.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class EditarPerfilPage extends StatelessWidget {
+var resultado;
+  void getBio() async {
+    final apiResponse = await ParseObject('Biografia').get('Edix2sFKur');
+
+      for (var o in apiResponse.results) {
+        final object = o as ParseObject;
+        print('${object.objectId} - ${object.get<String>('textoBio')}');
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if(1 == 1){
+      getBio();
+    }
     return  Scaffold(
       appBar: AppBar(
         title: const Text('Editar Perfil'),
@@ -155,7 +168,7 @@ class EditarPerfilPage extends StatelessWidget {
                   SizedBox(
                     height: 10.0,
                   ),
-                  Text('Meu nome é Alice e sou uma blá blá blá blá',
+                  Text('resultado.Payload.textoBio',
                     style: TextStyle(
                       fontSize: 22.0,
                       fontStyle: FontStyle.italic,
