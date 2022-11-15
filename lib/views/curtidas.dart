@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
-
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class CurtidasPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,173 +10,64 @@ class CurtidasPage extends StatelessWidget {
         backgroundColor: Colors.red,
       ),
       body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.redAccent, Colors.pinkAccent]
-              )
-            ),
-            child: Container(
-              width: double.infinity,
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Card(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 0),
-                      clipBehavior: Clip.antiAlias,
-                      color: Colors.white,
-                      elevation: 5.0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 22.0),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    "Ricardão Pranta",
-                                    style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontSize: 22.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+        color: Colors.redAccent,
+        child: Column(
+        children: <Widget>[
+          Expanded(
+              child: FutureBuilder<List<ParseObject>>(
+                  future: getTodo(),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return Center(
+                          child: Container(
+                              width: 100,
+                              height: 100,
+                              child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),)),
+                        );
+                      default:
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: Text("No Data..."),
+                          );
+                        } else {
+                          return ListView.builder(
+                              padding: EdgeInsets.only(top: 10.0),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final varTodo = snapshot.data![index];
+                                final nome = varTodo.get<String>('nome')!;
+                                return Card(
+                                elevation: 5,
+                                child: ListTile(
+                                  leading: Icon(Icons.heart_broken_sharp, color: Colors.redAccent,),
+                                  title: Text(nome,
+                                  style: TextStyle(
+                                    color: Colors.redAccent,
                                   ),
-                                  SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  Text(
-                                    "Curtiu você, tenta falar com ele!",
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.pinkAccent,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Card(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                      clipBehavior: Clip.antiAlias,
-                      color: Colors.white,
-                      elevation: 5.0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 22.0),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    "Bruno Amassa",
-                                    style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontSize: 22.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  Text(
-                                    "Curtiu você, tenta falar com ele!",
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.pinkAccent,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Card(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                      clipBehavior: Clip.antiAlias,
-                      color: Colors.white,
-                      elevation: 5.0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 22.0),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    "Pedro da Rede",
-                                    style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontSize: 22.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  Text(
-                                    "Curtiu você, tenta falar com ele!",
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.pinkAccent,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Card(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                      clipBehavior: Clip.antiAlias,
-                      color: Colors.white,
-                      elevation: 5.0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 22.0),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    "Alvaro Dias",
-                                    style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontSize: 22.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  Text(
-                                    "Curtiu você, tenta falar com ele!",
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.pinkAccent,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ),
+                                ),
+                                  subtitle: Text('Curtiu Você'),
+                                ),
+                              );
+                              });
+                        }
+                    }
+                  }))
+        ],
+      ),
+      )
     );
+  }
+}
+
+Future<List<ParseObject>> getTodo() async {
+  QueryBuilder<ParseObject> queryTodo = QueryBuilder<ParseObject>(ParseObject('CurtidasRecebidas'));
+  final ParseResponse apiResponse = await queryTodo.query();
+
+  if (apiResponse.success && apiResponse.results != null) {
+    return apiResponse.results as List<ParseObject>;
+  } else {
+    return [];
   }
 }

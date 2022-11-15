@@ -2,22 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:myapp/views/editarBio.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-class EditarPerfilPage extends StatelessWidget {
-var resultado;
-  void getBio() async {
-    final apiResponse = await ParseObject('Biografia').get('Edix2sFKur');
 
-      for (var o in apiResponse.results) {
-        final object = o as ParseObject;
-        print('${object.objectId} - ${object.get<String>('textoBio')}');
-      }
+class EditarPerfilPage extends StatefulWidget  {
+
+  const EditarPerfilPage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<EditarPerfilPage> createState() => _EditarPerfilPage();
+}
+  
+class _EditarPerfilPage extends State<EditarPerfilPage> {
+
+  var resultado;
+var biografiaTexto;
+
+  void getBio() async {
+    final apiResponse = await ParseObject('Biografia').getAll();
+
+    resultado = apiResponse.results;
+
+  for(var a in resultado){
+    final object = a as ParseObject;
+    biografiaTexto = object.get<String>('textoBio');
+    
+  }
+  setBio();
+  }
+
+  String bioTexto = "";
+
+  void setBio() {
+    
+    setState(() {
+      bioTexto = biografiaTexto;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if(1 == 1){
+    
       getBio();
-    }
+      
     return  Scaffold(
       appBar: AppBar(
         title: const Text('Editar Perfil'),
@@ -168,7 +195,7 @@ var resultado;
                   SizedBox(
                     height: 10.0,
                   ),
-                  Text('resultado.Payload.textoBio',
+                  Text(bioTexto,
                     style: TextStyle(
                       fontSize: 22.0,
                       fontStyle: FontStyle.italic,
@@ -232,4 +259,6 @@ var resultado;
   }
   
   RaisedButton({required Null Function() onPressed, required RoundedRectangleBorder shape, required double elevation, required EdgeInsets padding, required Ink child}) {}
+
 }
+

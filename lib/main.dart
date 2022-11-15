@@ -88,7 +88,7 @@ class MenuItens extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => EditarPerfilPage()),
+              MaterialPageRoute(builder: (context) => EditarPerfilPage(title: '',)),
             );
           },
         )
